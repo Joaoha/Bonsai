@@ -1,0 +1,27 @@
+{
+  "name": "@bonsai-examples/minimal-node",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Headless end-to-end demo for the @bonsai/* packages: create project → chat on main → branch → chat in branch → merge summary → distill → retrieve. No UI, no HTTP.",
+  "type": "module",
+  "scripts": {
+    "demo": "tsx src/demo.ts",
+    "demo:real": "BONSAI_DEMO_USE_REAL_OPENAI=1 tsx src/demo.ts",
+    "typecheck": "tsc -b"
+  },
+  "dependencies": {
+    "@bonsai/core": "workspace:*",
+    "@bonsai/storage-postgres": "workspace:*",
+    "@bonsai/provider-openai": "workspace:*",
+    "@bonsai/wiki-fs": "workspace:*",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@testcontainers/postgresql": "^10.13.0",
+    "@types/node": "^20.11.0",
+    "@types/pg": "^8.11.10",
+    "testcontainers": "^10.13.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

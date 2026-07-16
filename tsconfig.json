@@ -5,6 +5,7 @@
     { "path": "./packages/storage-postgres" },
     { "path": "./packages/provider-openai" },
     { "path": "./packages/wiki-fs" },
-    { "path": "./packages/server" }
+    { "path": "./packages/server" },
+    { "path": "./examples/minimal-node" }
   ]
 }
