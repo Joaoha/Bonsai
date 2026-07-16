@@ -2,9 +2,9 @@
   "name": "@bonsai/core",
   "version": "0.1.0",
   "description": "Framework-agnostic Bonsai domain: tree/branch/merge/distill primitives, ContextPacket assembly, pluggable Storage/LLMProvider/WikiStore/Retriever interfaces.",
-  "private": false,
+  "private": true,
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "type": "module",
   "main": "./dist/index.js",
@@ -25,7 +25,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "publint": "publint --strict",
-    "attw": "attw --pack . --profile esm-only"
+    "attw": "attw --pack . --profile esm-only",
+    "prepublishOnly": "node -e \"console.error('Publishing @bonsai/* is disabled (BONA-247: packages are private).'); process.exit(1)\""
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

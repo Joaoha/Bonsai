@@ -23,7 +23,7 @@
     "changeset": "changeset",
     "changeset:status": "changeset status",
     "changeset:version": "changeset version",
-    "changeset:publish": "changeset publish"
+    "changeset:publish": "node -e \"console.error('Publishing is disabled: Bonsai packages are private (BONA-247). Remove this guard only after board approval.'); process.exit(1)\""
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
