@@ -1,6 +1,6 @@
 {
   "name": "@bonsai/core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Framework-agnostic Bonsai domain: tree/branch/merge/distill primitives, ContextPacket assembly, pluggable Storage/LLMProvider/WikiStore/Retriever interfaces.",
   "private": false,
   "publishConfig": {

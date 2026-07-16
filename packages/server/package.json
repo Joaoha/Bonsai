@@ -1,6 +1,6 @@
 {
   "name": "@bonsai/server",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Thin optional HTTP layer wrapping the @bonsai/core façade (create project, chat, branch, merge, distill, retrieve, inspect context).",
   "private": false,
   "publishConfig": {

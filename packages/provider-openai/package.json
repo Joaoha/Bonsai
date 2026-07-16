@@ -1,6 +1,6 @@
 {
   "name": "@bonsai/provider-openai",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "OpenAI-compatible LLMProvider adapter for @bonsai/core (chat + streaming + tokenize).",
   "private": false,
   "publishConfig": {

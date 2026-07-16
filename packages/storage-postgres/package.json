@@ -1,6 +1,6 @@
 {
   "name": "@bonsai/storage-postgres",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Postgres Storage adapter for @bonsai/core: migrations, repositories, FTS retriever.",
   "private": false,
   "publishConfig": {

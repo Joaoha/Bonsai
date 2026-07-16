@@ -1,6 +1,6 @@
 {
   "name": "@bonsai/wiki-fs",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Markdown-on-disk WikiStore adapter for @bonsai/core (frontmatter, wikilinks, path-scoped writes).",
   "private": false,
   "publishConfig": {
