@@ -1,0 +1,67 @@
+:root {
+  --sl-font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.hero-band {
+  display: grid;
+  gap: 1.25rem;
+  padding: 2rem 0 1rem;
+  border-bottom: 1px solid var(--sl-color-hairline);
+}
+
+.hero-band code {
+  font-size: 0.95rem;
+}
+
+.pitch-columns {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  margin: 1.5rem 0;
+}
+
+.pitch-columns > article {
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 0.5rem;
+  background: var(--sl-color-bg-nav);
+}
+
+.honesty-band {
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--sl-color-accent);
+  background: var(--sl-color-bg-nav);
+  margin: 1.5rem 0;
+}
+
+.concept-strip {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  margin: 1.5rem 0;
+}
+
+.concept-strip a {
+  display: block;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.concept-strip a:hover {
+  border-color: var(--sl-color-accent);
+}
+
+.invariants {
+  padding: 0.9rem 1.1rem;
+  border-left: 3px solid var(--sl-color-accent);
+  background: var(--sl-color-bg-nav);
+  margin: 1rem 0 1.5rem;
+}
+
+.invariants p:first-child {
+  margin-top: 0;
+  font-weight: 600;
+}

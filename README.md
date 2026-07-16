@@ -38,7 +38,14 @@ pnpm attw                 # arethetypeswrong per package (release gate, ESM-only
 pnpm release:gate         # build + publint + attw (run before publishing)
 pnpm changeset            # add a changeset entry for a release
 pnpm changeset:status     # show pending changesets
+pnpm docs:dev             # run the docs site locally (Astro Starlight)
+pnpm docs:build           # build the static docs site under docs/dist
+pnpm docs:preview         # preview a built docs site
 ```
+
+## Docs site
+
+Public documentation lives under [`docs/`](./docs) as its own pnpm workspace package (`@bonsai/docs`, private). It renders the IA defined in [BONA-222](/BONA/issues/BONA-222#document-ia) using Astro Starlight, with the API Reference auto-generated from each package's `src/index.ts` via TypeDoc + `starlight-typedoc`.
 
 ## Boundary enforcement
 

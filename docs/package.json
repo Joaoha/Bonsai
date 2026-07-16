@@ -1,0 +1,28 @@
+{
+  "name": "@bonsai/docs",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Public docs site for @bonsai/* — Astro Starlight, TypeDoc-generated API reference.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.32.2",
+    "astro": "^5.7.0",
+    "sharp": "^0.33.5",
+    "starlight-typedoc": "^0.20.0",
+    "typedoc": "^0.28.2",
+    "typedoc-plugin-markdown": "^4.4.1"
+  },
+  "devDependencies": {
+    "@bonsai/core": "workspace:*",
+    "@bonsai/provider-openai": "workspace:*",
+    "@bonsai/server": "workspace:*",
+    "@bonsai/storage-postgres": "workspace:*",
+    "@bonsai/wiki-fs": "workspace:*"
+  }
+}
