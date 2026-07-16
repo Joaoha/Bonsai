@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & boundary gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+          run_install: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint (ESLint boundary rules)
+        run: pnpm lint
+
+      - name: Dependency-cruiser (forbid core → adapter imports)
+        run: pnpm depcruise
+
+      - name: Build
+        run: pnpm build
+
+      - name: Test
+        run: pnpm test
+
+      - name: Boundary fixture verify (must reject bad imports)
+        run: pnpm boundary:verify
+
+      - name: publint (release gate — package manifests)
+        run: pnpm publint
+
+      - name: arethetypeswrong (release gate — .d.ts resolution)
+        run: pnpm attw
+
+  secret-scan:
+    name: TruffleHog secret scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: TruffleHog
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.pull_request.base.sha || github.event.before || '' }}
+          head: ${{ github.event.pull_request.head.sha || github.sha }}
+          extra_args: --results=verified,unknown --fail

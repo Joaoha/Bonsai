@@ -1,0 +1,44 @@
+import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import globals from 'globals';
+
+const CORE_FORBIDDEN_PATTERNS = [
+  { group: ['react', 'react-dom', 'react/*', 'react-dom/*'], message: '@bonsai/core is framework-agnostic. UI frameworks belong in host apps, not core.' },
+  { group: ['next', 'next/*'], message: '@bonsai/core must not import Next.js. Move host-framework code out of core.' },
+  { group: ['tailwindcss', 'tailwindcss/*'], message: '@bonsai/core must not import Tailwind. Styling belongs in host UI packages.' },
+  { group: ['pg', 'pg-*', 'postgres', 'postgres.js'], message: 'Postgres drivers belong in @bonsai/storage-postgres. Core depends only on the Storage interface.' },
+  { group: ['sqlite', 'sqlite3', 'better-sqlite3', 'sqlite-*'], message: 'SQLite drivers belong in a storage adapter, not core.' },
+  { group: ['fs', 'node:fs', 'fs/promises', 'node:fs/promises'], message: 'Direct filesystem access is banned in core. Use the WikiStore interface (implemented by @bonsai/wiki-fs).' },
+  { group: ['net', 'node:net', 'dgram', 'node:dgram'], message: 'Raw network sockets are banned in core. Use injected adapters.' },
+  { group: ['http', 'node:http', 'https', 'node:https', 'axios', 'got', 'node-fetch', 'undici'], message: 'HTTP clients are banned in core. Model calls go through the injected LLMProvider; other network I/O belongs in adapters.' },
+  { group: ['openai', '@anthropic-ai/*', 'anthropic'], message: 'Provider SDKs belong in @bonsai/provider-*. Core uses the LLMProvider interface.' },
+];
+
+export default tseslint.config(
+  {
+    ignores: [
+      '**/dist/**',
+      '**/node_modules/**',
+      '**/*.tsbuildinfo',
+      '.changeset/**',
+      'packages/*/src/__fixtures__/**',
+      'test/fixtures/**',
+      '**/*.cjs',
+    ],
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: { ...globals.node },
+    },
+  },
+  {
+    files: ['packages/core/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': ['error', { patterns: CORE_FORBIDDEN_PATTERNS }],
+    },
+  },
+);

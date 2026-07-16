@@ -30,10 +30,24 @@ pnpm install              # install workspace dependencies
 pnpm typecheck            # tsc -b across all packages via project references
 pnpm build                # build all packages that define a build script
 pnpm test                 # run tests across the workspace
-pnpm lint                 # lint across the workspace
+pnpm lint                 # ESLint (incl. `no-restricted-imports` boundary rules on packages/core)
+pnpm depcruise            # dependency-cruiser — forbid core -> adapter imports
+pnpm boundary:verify      # positive test: fixture must be rejected by lint + depcruise
+pnpm publint              # publint --strict per package (release gate)
+pnpm attw                 # arethetypeswrong per package (release gate, ESM-only profile)
+pnpm release:gate         # build + publint + attw (run before publishing)
 pnpm changeset            # add a changeset entry for a release
 pnpm changeset:status     # show pending changesets
 ```
+
+## Boundary enforcement
+
+`@bonsai/core` is framework- and adapter-agnostic by contract. Two layers defend that boundary:
+
+- **ESLint `no-restricted-imports`** (scoped to `packages/core/**`) bans `react`, `react-dom`, `next/*`, `tailwindcss`, `pg`/`postgres`/`sqlite*`, `fs`/`node:fs`, `net`, node http clients, and provider SDKs.
+- **dependency-cruiser** forbids `packages/core → packages/{storage-*, provider-*, wiki-fs, server}` (both by resolved path and by `@bonsai/*` module name).
+
+`pnpm boundary:verify` runs both tools against intentional violation fixtures under `packages/core/src/__fixtures__/` and fails if either tool accepts them. CI runs it on every push/PR.
 
 ## References
 

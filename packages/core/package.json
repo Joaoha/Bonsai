@@ -15,9 +15,14 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist", "README.md"],
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc -b",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "publint": "publint --strict",
+    "attw": "attw --pack . --profile esm-only"
   }
 }
