@@ -23,10 +23,26 @@
   "scripts": {
     "build": "tsc -b",
     "typecheck": "tsc -b",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "publint": "publint --strict",
     "attw": "attw --pack . --profile esm-only"
   },
   "dependencies": {
     "@bonsai/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "pg": ">=8.11.0"
+  },
+  "peerDependenciesMeta": {
+    "pg": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/pg": "^8.11.10",
+    "pg": "^8.13.1",
+    "vitest": "^2.1.0"
   }
 }

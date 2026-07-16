@@ -15,6 +15,22 @@ jobs:
     name: Build & boundary gates
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: bonsai
+          POSTGRES_PASSWORD: bonsai
+          POSTGRES_DB: bonsai_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U bonsai"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=10
+    env:
+      BONSAI_TEST_DATABASE_URL: postgres://bonsai:bonsai@localhost:5432/bonsai_test
     steps:
       - name: Checkout
         uses: actions/checkout@v4
