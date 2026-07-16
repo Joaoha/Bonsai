@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/storage-postgres" },
+    { "path": "./packages/provider-openai" },
+    { "path": "./packages/wiki-fs" },
+    { "path": "./packages/server" }
+  ]
+}

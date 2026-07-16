@@ -1,0 +1,23 @@
+{
+  "name": "@bonsai/core",
+  "version": "0.0.0",
+  "description": "Framework-agnostic Bonsai domain: tree/branch/merge/distill primitives, ContextPacket assembly, pluggable Storage/LLMProvider/WikiStore/Retriever interfaces.",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc -b"
+  }
+}

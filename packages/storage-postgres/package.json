@@ -1,0 +1,26 @@
+{
+  "name": "@bonsai/storage-postgres",
+  "version": "0.0.0",
+  "description": "Postgres Storage adapter for @bonsai/core: migrations, repositories, FTS retriever.",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "migrations", "README.md"],
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc -b"
+  },
+  "dependencies": {
+    "@bonsai/core": "workspace:*"
+  }
+}
