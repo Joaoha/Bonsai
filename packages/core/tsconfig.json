@@ -5,6 +5,11 @@
     "outDir": "dist"
   },
   "include": ["src/**/*"],
-  "exclude": ["src/**/__fixtures__/**", "src/**/*.fixture.ts"],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/__testutil__/**",
+    "src/**/__fixtures__/**",
+    "src/**/*.fixture.ts"
+  ],
   "references": []
 }
