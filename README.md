@@ -85,10 +85,6 @@ Public documentation lives under [`docs/`](./docs) as its own pnpm workspace pac
 
 `pnpm boundary:verify` runs both tools against intentional violation fixtures under `packages/core/src/__fixtures__/` and fails if either tool accepts them. CI runs it on every push/PR.
 
-## References
-
-- Extraction plan and boundary map: [EXTRACTION_PLAN.md](./EXTRACTION_PLAN.md)
-
 ## License
 
 [MIT](./LICENSE)
