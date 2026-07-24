@@ -3,9 +3,25 @@ title: ContextPacket
 description: The inspectable, reconstructable record of everything a model call saw.
 ---
 
-A `ContextPacket` is the exact input the model was given for a chat turn: the node walk (which messages), the wiki hits (which pages, at what rank), the system rules, and the deterministic truncation applied to respect provider limits. Every chat call returns one; every packet is persisted and addressable by id.
+A `ContextPacket` is the exact input assembled for a chat turn: the ancestry messages walked, which wiki pages and merge summaries were folded in, the rendered system preamble, and whether anything was dropped to fit the token budget. `Bonsai.assembleContext(branchId, opts?)` returns one directly — call it any time to inspect what a chat call *would* send, before spending a token. `Bonsai.chat()` builds the same packet internally and streams the reply; it does not return the packet itself, so inspect via `assembleContext` if you need to see it.
 
-> **Read these first.** Stub. Full concept page lands in a future content pass — see the [issue tracker](https://github.com/Joaoha/Bonsai/issues) for progress.
+```ts
+interface ContextPacket {
+  projectId: Id;
+  branchId: Id;
+  model: string;
+  provider: string;
+  timestamp: string;
+  messages: ContextPacketMessage[];   // conversation only — merge-commit rows excluded
+  includedMessageIds: Id[];           // includes merge-commit ids, for audit
+  includedMergeIds: Id[];
+  includedWikiPageIds: Id[];
+  tokenEstimate: number;
+  renderedPromptPreview: string;      // wiki + merges + conversation, concatenated
+  systemPreamble: string;             // wiki + merges only
+  truncated: boolean;
+}
+```
 
 ## Invariants
 
@@ -14,9 +30,9 @@ A `ContextPacket` is the exact input the model was given for a chat turn: the no
 **These invariants MUST hold for any embedder or provider adapter.**
 
 - Every model call must be reconstructable from its `ContextPacket`. If a user cannot see why the model knew something, the feature is broken.
-- Truncation is deterministic and typed (`nodeWalkTruncated`, `wikiHitsTruncated`, `systemRulesTruncated`) — never silent drops.
-- Included wiki hits carry their retriever, score, and source path — no anonymous retrieval.
-- The packet is written **before** the provider call starts, not after it succeeds, so failed calls are still auditable.
+- Wiki pages and merge summaries are included **whole or not at all** (wiki capped at 20% of the token budget, merges at 30% of what's left) — assembly never truncates a single page or summary mid-content.
+- Conversation messages fill the remaining budget and are dropped oldest-first when they don't fit; `truncated: true` signals this happened. There is no separate flag for wiki/merge exclusion — check `includedWikiPageIds` / `includedMergeIds` against what you queried for.
+- `includedMessageIds` records every message folded into the packet, including merge-commit messages whose text was promoted into `systemPreamble` rather than `messages[]` — so the id trail stays complete even though the commit text itself isn't repeated in the conversation array.
 
 </div>
 

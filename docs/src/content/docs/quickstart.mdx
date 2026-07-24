@@ -16,7 +16,7 @@ create project → chat on main → branch → chat in branch
   → merge (with editable summary) → distill → retrieve → audit trace
 ```
 
-Every step is inspectable: chat returns a `ContextPacket` you can read; merge invokes an `editSummary` hook you control; distill writes a Markdown wiki page with frontmatter you can grep.
+Every step is inspectable: `assembleContext()` gives you the exact `ContextPacket` a chat call will send before you spend a token; merge invokes an `editSummary` hook you control; distill writes a Markdown wiki page with frontmatter you can grep.
 
 ## Prerequisites
 
@@ -59,14 +59,24 @@ import { FsWikiStore } from '@bonsai/wiki-fs';
 import { Pool } from 'pg';
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-await applyMigrations(pool);
+// migrationsRoot points at packages/storage-postgres/migrations in this repo;
+// when you depend on the published package, copy those SQL files into your
+// own migrations pipeline and point this at your copy instead.
+await applyMigrations(pool, './migrations');
+
+const storage = createPostgresStorage({ pool });
 
 export const bonsai = new Bonsai({
-  storage: createPostgresStorage(pool),
+  storage,
   provider: new OpenAIProvider({ apiKey: process.env.OPENAI_API_KEY! }),
   wiki: new FsWikiStore({ root: './wiki' }),
-  retriever: new PostgresFtsRetriever(pool),
 });
+
+// The retriever is bound to a project, so you construct one per project
+// once you have a project id (see step 3).
+export function retrieverFor(projectId: string) {
+  return new PostgresFtsRetriever({ pool, projectId });
+}
 ```
 
 <Aside type="note" title="Deterministic tests">
@@ -77,28 +87,33 @@ For CI and local dev, swap `OpenAIProvider` for a fake that returns fixed string
 
 ```ts
 const project = await bonsai.createProject({ name: 'demo' });
-const mainBranchId = project.mainBranchId;
+// createProject seeds exactly one branch, named "main".
+const [main] = await storage.branches.findByProjectId(project.id);
 
-// Streamed chat on main. `packet` is the exact context the model saw.
-const first = await bonsai.chat({
-  branchId: mainBranchId,
-  message: 'Give me three ideas for a weekend project.',
-});
-for await (const chunk of first.stream) process.stdout.write(chunk.content);
+// Want to see the exact context before spending a token? Call
+// `bonsai.assembleContext(main.id)` — it returns the same ContextPacket
+// that `chat()` sends to the provider.
 
-// Fork the third assistant reply into a branch to explore it in depth.
+// `chat()` is an async generator: it persists the user message, streams
+// the reply, and persists the assistant message as it completes.
+for await (const chunk of bonsai.chat(main.id, 'Give me three ideas for a weekend project.')) {
+  process.stdout.write(chunk.content);
+}
+
+// Fork main at its last message into a branch to explore idea #3 in depth.
+const mainMessages = await storage.messages.findByBranchId(main.id);
+const forkPoint = mainMessages[mainMessages.length - 1]!.id;
 const branch = await bonsai.createBranch({
-  fromMessageId: first.assistantMessageId,
+  fromBranchId: main.id,
+  forkPoint,
   name: 'weekend-3',
 });
 
 // Sibling branches do not leak into each other's context. This is enforced
 // by ContextPacket assembly, not by hope.
-const explore = await bonsai.chat({
-  branchId: branch.id,
-  message: 'Sketch a two-day plan for idea #3.',
-});
-for await (const chunk of explore.stream) process.stdout.write(chunk.content);
+for await (const chunk of bonsai.chat(branch.id, 'Sketch a two-day plan for idea #3.')) {
+  process.stdout.write(chunk.content);
+}
 ```
 
 ## 4. Merge back with a reviewed summary
@@ -106,30 +121,36 @@ for await (const chunk of explore.stream) process.stdout.write(chunk.content);
 Merge is a distinct user action, not a side effect. You get to edit the summary before it lands on the target branch.
 
 ```ts
-const merge = await bonsai.merge({
+const { merge, appliedMessage } = await bonsai.merge({
   sourceBranchId: branch.id,
-  targetBranchId: mainBranchId,
-  editSummary: (proposed) => ({
-    ...proposed,
-    body: proposed.body + '\n\nHuman note: keep the tent option, drop the raft.',
-  }),
+  targetBranchId: main.id,
+  editSummary: (draft) => `${draft}\n\nHuman note: keep the tent option, drop the raft.`,
 });
 
 console.log(merge.status); // 'applied'
-console.log(merge.summary.body); // includes your human note
+console.log(merge.summary); // includes your human note
+console.log(appliedMessage.isMergeCommit); // true — landed on `main` as a message
 ```
+
+`editSummary` receives the provider-generated draft summary and returns the final text (sync or async) — it is called exactly once per merge, before the merge commit is written.
 
 ## 5. Distill into the wiki, then retrieve
 
 Distill turns the merge (and its underlying transcript) into a durable Markdown page under `wiki/pages/` with a frontmatter block linking back to the merge and source messages. Retrieval picks it up on the next chat.
 
 ```ts
-const page = await bonsai.distill({ mergeId: merge.id });
-console.log(page.path);        // wiki/pages/2026-07-17-weekend-3.md
-console.log(page.frontmatter); // { title, mergeId, sources, ... }
+const distillation = await bonsai.distill({ mergeId: merge.id });
+console.log(distillation.wikiPageSlug);  // e.g. "merge-weekend-3"
+console.log(distillation.wikiPageTitle); // "Merge: weekend-3"
+// The Markdown file itself lives at `<wiki root>/pages/<slug>.md` with a
+// frontmatter block carrying `mergeId` and `sources[]` back to the raw
+// transcript — see the Wiki concept page.
 
-const hits = await bonsai.retrieve({ query: 'weekend tent plan' });
-console.log(hits[0].path);     // same page
+// Retrieval goes through the Retriever you constructed for this project,
+// not through the Bonsai façade — Bonsai has no `retrieve()` method.
+const retriever = retrieverFor(project.id);
+const hits = await retriever.search('weekend tent plan');
+console.log(hits[0].title); // same page
 ```
 
 ## 6. Audit trace
@@ -137,10 +158,13 @@ console.log(hits[0].path);     // same page
 Every wiki page traces back to its merge, and every merge back to its raw transcript. That contract is why distill and merge stay separate user actions.
 
 ```ts
-const trace = await bonsai.resolveTrace(page.slug);
-console.log(trace.merge.id);
-console.log(trace.messages.map((m) => m.role));
+const trace = await bonsai.resolveTrace(distillation.wikiPageSlug);
+console.log(trace?.wikiSlug, trace?.wikiTitle);
 ```
+
+<Aside type="caution" title="Trace resolution is minimal today">
+The `Bonsai` façade's `resolveTrace` currently only confirms the wiki page exists and returns `{ wikiSlug, wikiTitle, transcript: [] }` — it does not yet join back to `merge` or `branch`. The frontmatter written by `distill()` (`mergeId`, `sources[]`) already carries that link; a fuller `AuditTraceResolver` that reads it back is on the roadmap. See [`resolveTrace`](/api/core/functions/resolvetrace/) and [`AuditTrace`](/api/core/interfaces/audittrace/) for the full shape.
+</Aside>
 
 ## Next steps
 

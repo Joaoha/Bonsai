@@ -31,7 +31,7 @@ import { Card, CardGrid, Code, Tabs, TabItem } from '@astrojs/starlight/componen
   </article>
   <article>
     <h3>Every prompt is inspectable.</h3>
-    <p>The <code>ContextPacket</code> shows exactly which nodes, wiki pages, and system rules the model saw. No hidden retrieval magic.</p>
+    <p>The <code>ContextPacket</code> shows exactly which messages, merges, and wiki pages were included, plus the rendered prompt preview and system preamble. No hidden retrieval magic.</p>
   </article>
   <article>
     <h3>Merge is not distill.</h3>
@@ -48,36 +48,52 @@ import { Bonsai } from '@bonsai/core';
 import { createPostgresStorage } from '@bonsai/storage-postgres';
 import { OpenAIProvider } from '@bonsai/provider-openai';
 import { FsWikiStore } from '@bonsai/wiki-fs';
+import { Pool } from 'pg';
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const storage = createPostgresStorage({ pool });
 
 const bonsai = new Bonsai({
-  storage: await createPostgresStorage({ url: process.env.DATABASE_URL! }),
+  storage,
   provider: new OpenAIProvider({ apiKey: process.env.OPENAI_API_KEY! }),
   wiki: new FsWikiStore({ root: './wiki' }),
 });
 
 const project = await bonsai.createProject({ name: 'demo' });
-const { packet, stream } = await bonsai.chat({
-  branchId: project.mainBranchId,
-  message: 'What can you tell me about branchable conversations?',
-});
+// createProject seeds exactly one branch, named "main".
+const [main] = await storage.branches.findByProjectId(project.id);
 
-// packet.nodes / packet.wikiHits / packet.systemRules are all inspectable.
-for await (const chunk of stream) process.stdout.write(chunk.content);
+// Inspect the exact context before you spend a token.
+const packet = await bonsai.assembleContext(main.id);
+// packet.messages / packet.includedWikiPageIds / packet.renderedPromptPreview
+// are all inspectable — see the ContextPacket concept page.
+
+for await (const chunk of bonsai.chat(main.id, 'What can you tell me about branchable conversations?')) {
+  process.stdout.write(chunk.content);
+}
 ```
   </TabItem>
   <TabItem label="Next.js">
 ```ts
 // app/api/chat/route.ts
-import { Bonsai } from '@bonsai/core';
+import { handleChat, parseChat } from '@bonsai/server';
 import { getBonsaiDeps } from '@/lib/bonsai';
 
 export async function POST(req: Request) {
-  const { branchId, message } = await req.json();
-  const bonsai = new Bonsai(await getBonsaiDeps());
-  const { packet, stream } = await bonsai.chat({ branchId, message });
-  return new Response(toReadableStream(stream), {
-    headers: { 'x-bonsai-packet-id': packet.id },
+  const deps = await getBonsaiDeps(); // { bonsai, retriever? }
+  const chatReq = parseChat(await req.json());
+  const stream = handleChat(deps, chatReq);
+
+  const body = new ReadableStream({
+    async start(controller) {
+      for await (const chunk of stream) {
+        controller.enqueue(new TextEncoder().encode(chunk.content));
+        if (chunk.done) break;
+      }
+      controller.close();
+    },
   });
+  return new Response(body);
 }
 ```
   </TabItem>

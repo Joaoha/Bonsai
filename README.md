@@ -45,7 +45,7 @@ pnpm docs:preview         # preview a built docs site
 
 ## Docs site
 
-Public documentation lives under [`docs/`](./docs) as its own pnpm workspace package (`@bonsai/docs`, private), built with Astro Starlight. The API Reference is auto-generated from each package's `src/index.ts` via TypeDoc + `starlight-typedoc`. Several concept and recipe pages are still stubs.
+Public documentation lives under [`docs/`](./docs) as its own pnpm workspace package (`@bonsai/docs`, private), built with Astro Starlight. The API Reference is auto-generated from each package's `src/index.ts` via TypeDoc + `starlight-typedoc`. Landing page, quickstart, concept pages, and recipes are verified against the current `@bonsai/*` API surface.
 
 ## Boundary enforcement
 
