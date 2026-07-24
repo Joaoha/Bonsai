@@ -8,7 +8,7 @@ import { createStarlightTypeDocPlugin } from 'starlight-typedoc';
 /**
  * starlight-typedoc + typedoc-plugin-markdown emit files with a `.html` extension
  * whose content is Markdown. Astro's content collection only globs `.md`/`.mdx`,
- * so we rename them and rewrite internal `href="…​.html"` links to strip the
+ * so we rename them and rewrite internal `href="....html"` links to strip the
  * extension (which is Starlight's link convention). Runs after Starlight's
  * config:setup hook has already generated the pages.
  */
@@ -73,7 +73,7 @@ const typedocOptions = {
 };
 
 export default defineConfig({
-  site: 'https://bonsai.example.com',
+  site: 'https://joaoha.github.io/Bonsai',
   integrations: [
     renameTypeDocOutputs,
     starlight({
@@ -85,11 +85,11 @@ export default defineConfig({
         replacesTitle: false,
       },
       social: {
-        github: 'https://github.com/bonsai-labs/bonsai-core',
+        github: 'https://github.com/Joaoha/Bonsai',
       },
       editLink: {
         baseUrl:
-          'https://github.com/bonsai-labs/bonsai-core/edit/main/docs/',
+          'https://github.com/Joaoha/Bonsai/edit/main/docs/',
       },
       customCss: ['./src/styles/custom.css'],
       plugins: [

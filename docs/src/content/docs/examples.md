@@ -3,7 +3,7 @@ title: Examples
 description: Runnable examples from the bonsai-core monorepo.
 ---
 
-Examples live under [`examples/`](https://github.com/bonsai-labs/bonsai-core/tree/main/examples) in the monorepo. They double as CI smoke tests — every assertion in an example runs on every push.
+Examples live under [`examples/`](https://github.com/Joaoha/Bonsai/tree/main/examples) in the monorepo. They double as CI smoke tests — every assertion in an example runs on every push.
 
 ## `examples/minimal-node`
 
@@ -20,4 +20,4 @@ create project → chat on main → branch → chat in branch
 
 See the [Quickstart](/quickstart/) for a paste-and-run walkthrough that mirrors this demo.
 
-Repo path: [`examples/minimal-node`](https://github.com/bonsai-labs/bonsai-core/tree/main/examples/minimal-node).
+Repo path: [`examples/minimal-node`](https://github.com/Joaoha/Bonsai/tree/main/examples/minimal-node).

@@ -5,7 +5,7 @@ description: Wire @bonsai/core to Postgres, an OpenAI-compatible provider, and a
 
 import { Steps, Aside, Code, Tabs, TabItem } from '@astrojs/starlight/components';
 
-This walkthrough mirrors [`examples/minimal-node`](https://github.com/bonsai-labs/bonsai-core/tree/main/examples/minimal-node) — a headless demo that asserts every step, so it doubles as a CI smoke test. You should be able to paste, run, and see a streamed response, a branch, a merge summary, and a wiki page in one sitting.
+This walkthrough mirrors [`examples/minimal-node`](https://github.com/Joaoha/Bonsai/tree/main/examples/minimal-node) — a headless demo that asserts every step, so it doubles as a CI smoke test. You should be able to paste, run, and see a streamed response, a branch, a merge summary, and a wiki page in one sitting.
 
 ## What you'll build
 
@@ -147,4 +147,4 @@ console.log(trace.messages.map((m) => m.role));
 - Read [ContextPacket](/concepts/context-packet/) to understand why every prompt is reconstructable.
 - Read [Merge](/concepts/merge/) and [Distill](/concepts/distill/) to see why they are separate actions.
 - Swap the provider for a custom one via the [Custom Provider recipe](/recipes/custom-provider/).
-- Full asserted script: [`examples/minimal-node`](https://github.com/bonsai-labs/bonsai-core/tree/main/examples/minimal-node).
+- Full asserted script: [`examples/minimal-node`](https://github.com/Joaoha/Bonsai/tree/main/examples/minimal-node).
