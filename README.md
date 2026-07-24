@@ -6,7 +6,7 @@
 
 Most AI chat apps force every conversation down one straight line: you ask, it answers, you ask again, and the whole history piles up in order. If you want to explore a tangent — "what if we tried a different approach?" — you either derail the conversation or start over from scratch and lose the context you'd already built up.
 
-Bonsai lets a conversation branch, the way a doc or a codebase can. From any point in a chat, you can fork off a new branch to explore an idea, without disturbing the original thread. If the branch turns out useful, you can merge a summary of it back into the main conversation. If it's a dead end, you just abandon it — nothing about it leaks back in. And when a conversation (or a branch) produces something worth keeping long-term, you can distill it into a wiki page that future conversations can draw on, instead of re-explaining it every time.
+Bonsai lets a conversation branch. From any point in a chat, you can branch off to explore an idea, without disturbing the original thread. If the branch turns out useful, you can merge a summary of it back into the main conversation. If it's a dead end, you just abandon it — nothing about it leaks back in. And when a conversation (or a branch) produces something worth keeping long-term, you can distill it into a wiki page that future conversations can draw on, instead of re-explaining it every time.
 
 Crucially, Bonsai never does any of this automatically behind your back. Branching, merging, and distilling are all actions your app's user explicitly takes — and at every step, Bonsai can show you exactly what information was assembled and sent to the model for a given reply, so "why did the AI say that?" always has a concrete answer.
 
@@ -16,7 +16,7 @@ Bonsai is **not** a finished chat app you install and open in a browser — it's
 
 ## How it works, in short
 
-- **Tree Model** — every project starts as one `main` branch; forking a branch at any message creates a new branch that can be explored independently.
+- **Tree Model** — every project starts as one `main` branch; branching off at any message creates a new branch that can be explored independently.
 - **ContextPacket** — before (or instead of) sending a prompt to the model, you can inspect the exact packet of messages, merges, and wiki pages that would be included — no hidden retrieval step.
 - **Merge** — land a reviewed summary of a branch back onto its parent branch, as an explicit, user-approved action.
 - **Distill** — turn a branch or merge's transcript into a durable Markdown wiki page that later conversations can retrieve.
@@ -27,9 +27,9 @@ Read the [Concepts](./docs/src/content/docs/concepts) pages or the [docs site](.
 
 ## See it in action
 
-The docs site landing page (`pnpm docs:dev`) walks through the same pitch above, plus a minimal working embed:
+A Bonsai project, built on `@bonsai/core`: the branch graph on the right shows `main` with three branches (`i-like-dogs`, `i-like-hotdogs`, `i-loke-motorb...`) explored independently, two of them already merged back with a reviewed summary and a one-click "Distill to Wiki" action, while the chat on the left only ever sees `main`'s own history plus what was explicitly merged into it:
 
-![Bonsai docs site: the "branches, not linear chats" pitch cards and a minimal Node embed showing createProject, assembleContext, and chat](./docs/src/assets/readme-demo.png)
+![A Bonsai-based chat app: a branch graph showing main with several explored branches, two merged back into main with reviewed summaries and a "Distill to Wiki" action, and a chat pane on main that only sees its own history plus what was merged in](./docs/src/assets/readme-demo.png)
 
 ## Status
 
