@@ -12,7 +12,7 @@ import { FsWikiStore } from '@bonsai/wiki-fs';
 const wiki = new FsWikiStore({ root: '/absolute/path/to/wiki' });
 ```
 
-Constructor is I/O-free (per the [`@bonsai/core` boundary rules](../../EXTRACTION_PLAN.md#1-guiding-rules-from-the-approved-plan)); the `pages/` directory is created lazily on the first `write` / `appendLogEntry` / `upsertIndex` call.
+Constructor is I/O-free (per the `@bonsai/core` boundary rules — zero I/O in constructors, lazy first-use or explicit `init()`); the `pages/` directory is created lazily on the first `write` / `appendLogEntry` / `upsertIndex` call.
 
 ## Path-escape guard
 
