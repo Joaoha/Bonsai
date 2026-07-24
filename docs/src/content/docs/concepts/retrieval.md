@@ -5,7 +5,7 @@ description: Query → ranked hits → ContextPacket. Pluggable Retriever with F
 
 Retrieval maps a query (typically the current user message) to a ranked list of wiki-page hits, which the ContextPacket assembler then splices into the model input. The `Retriever` interface is a pluggable boundary — Bonsai ships a Postgres FTS retriever by default; embeddings are opt-in and deferred until FTS is demonstrably weak on real corpora.
 
-> **Read these first.** Stub. Full concept page lands under [BONA-238](/BONA/issues/BONA-238)'s Phase 2 content pass — see the [IA](/BONA/issues/BONA-222#document-ia) §4 for the intended structure.
+> **Read these first.** Stub. Full concept page lands in a future content pass — see the [issue tracker](https://github.com/Joaoha/Bonsai/issues) for progress.
 
 ## Invariants
 

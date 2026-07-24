@@ -5,4 +5,4 @@ description: Implement the LLMProvider interface for a non-OpenAI-compatible mod
 
 **Concepts you should know:** [ContextPacket](/concepts/context-packet/).
 
-> **Stub.** Recipe stub. Full content lands under [BONA-238](/BONA/issues/BONA-238)'s Phase 2 content pass. Intended shape: implement `LLMProvider`, cover streaming, tool calls, cancellation, and how the provider surfaces token counts back into the packet.
+> **Stub.** Recipe stub. Full content lands in a future content pass — see the [issue tracker](https://github.com/Joaoha/Bonsai/issues) for progress. Intended shape: implement `LLMProvider`, cover streaming, tool calls, cancellation, and how the provider surfaces token counts back into the packet.

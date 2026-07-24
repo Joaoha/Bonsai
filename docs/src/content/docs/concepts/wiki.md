@@ -5,7 +5,7 @@ description: A Markdown-on-disk knowledge base with frontmatter-indexed pages an
 
 The wiki is the durable memory of a Bonsai project: a directory of Markdown pages, each with YAML frontmatter, plus an `index.md` and a `log.md`. It is designed to be readable by humans, greppable by tools, and cheap to back up.
 
-> **Read these first.** Stub. Full concept page lands under [BONA-238](/BONA/issues/BONA-238)'s Phase 2 content pass — see the [IA](/BONA/issues/BONA-222#document-ia) §4 for the intended structure.
+> **Read these first.** Stub. Full concept page lands in a future content pass — see the [issue tracker](https://github.com/Joaoha/Bonsai/issues) for progress.
 
 ## Invariants
 

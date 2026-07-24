@@ -5,7 +5,7 @@ description: Land what a branch should know now — with a reviewed summary — 
 
 A merge takes a source branch and lands a reviewed summary of its transcript onto a target branch (usually the parent) as a synthetic assistant message. It is a distinct, user-triggered action. The summary is editable before the merge applies.
 
-> **Read these first.** Stub. Full concept page lands under [BONA-238](/BONA/issues/BONA-238)'s Phase 2 content pass — see the [IA](/BONA/issues/BONA-222#document-ia) §4 for the intended structure.
+> **Read these first.** Stub. Full concept page lands in a future content pass — see the [issue tracker](https://github.com/Joaoha/Bonsai/issues) for progress.
 
 ## Invariants
 

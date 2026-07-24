@@ -16,4 +16,4 @@ Release gate (run before publishing):
 pnpm release:gate       # build + publint + attw
 ```
 
-> **Stub.** Full policy (semver rules, prerelease flow, tagging) tracked under [BONA-238](/BONA/issues/BONA-238).
+> **Stub.** Full policy (semver rules, prerelease flow, tagging) tracked in the [issue tracker](https://github.com/Joaoha/Bonsai/issues).

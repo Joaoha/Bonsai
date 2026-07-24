@@ -2,7 +2,7 @@
 
 Public documentation site for the `@bonsai/*` packages. Built with [Astro](https://astro.build/) + [Starlight](https://starlight.astro.build/); API Reference is auto-generated from source via [TypeDoc](https://typedoc.org/) and [starlight-typedoc](https://starlight-typedoc.vercel.app/).
 
-Information architecture is defined in [BONA-222](/BONA/issues/BONA-222#document-ia). This package renders that IA — do not re-open IA decisions here without escalating to TL.
+This package renders a deliberately chosen information architecture. Please open an issue on the [project tracker](https://github.com/Joaoha/Bonsai/issues) before proposing structural changes to the nav or page layout.
 
 ## Commands
 

@@ -5,7 +5,7 @@ description: Turn a merge (and its transcript) into a durable wiki page that fut
 
 Distill takes a merge id and produces a Markdown wiki page: title, frontmatter linking back to the merge and its source messages, and a body that is a compact restatement of the merged summary. It is user-triggered — Bonsai never distills automatically on every message.
 
-> **Read these first.** Stub. Full concept page lands under [BONA-238](/BONA/issues/BONA-238)'s Phase 2 content pass — see the [IA](/BONA/issues/BONA-222#document-ia) §4 for the intended structure.
+> **Read these first.** Stub. Full concept page lands in a future content pass — see the [issue tracker](https://github.com/Joaoha/Bonsai/issues) for progress.
 
 ## Invariants
 

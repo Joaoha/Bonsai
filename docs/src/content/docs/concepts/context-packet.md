@@ -5,7 +5,7 @@ description: The inspectable, reconstructable record of everything a model call 
 
 A `ContextPacket` is the exact input the model was given for a chat turn: the node walk (which messages), the wiki hits (which pages, at what rank), the system rules, and the deterministic truncation applied to respect provider limits. Every chat call returns one; every packet is persisted and addressable by id.
 
-> **Read these first.** Stub. Full concept page lands under [BONA-238](/BONA/issues/BONA-238)'s Phase 2 content pass — see the [IA](/BONA/issues/BONA-222#document-ia) §4 for the intended structure.
+> **Read these first.** Stub. Full concept page lands in a future content pass — see the [issue tracker](https://github.com/Joaoha/Bonsai/issues) for progress.
 
 ## Invariants
 
