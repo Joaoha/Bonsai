@@ -25,6 +25,12 @@ Bonsai is **not** a finished chat app you install and open in a browser — it's
 
 Read the [Concepts](./docs/src/content/docs/concepts) pages or the [docs site](./docs) for the full explanation of each, or the [Quickstart](./docs/src/content/docs/quickstart.mdx) for a working example.
 
+## See it in action
+
+The docs site landing page (`pnpm docs:dev`) walks through the same pitch above, plus a minimal working embed:
+
+![Bonsai docs site: the "branches, not linear chats" pitch cards and a minimal Node embed showing createProject, assembleContext, and chat](./docs/src/assets/readme-demo.png)
+
 ## Status
 
 Phase 1 scaffold. No package is published yet.
