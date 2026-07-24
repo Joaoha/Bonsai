@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "description": "Headless end-to-end demo for the @bonsai/* packages: create project → chat on main → branch → chat in branch → merge summary → distill → retrieve. No UI, no HTTP.",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "demo": "tsx src/demo.ts",

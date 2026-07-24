@@ -2,6 +2,7 @@
   "name": "@bonsai/storage-postgres",
   "version": "0.1.0",
   "description": "Postgres Storage adapter for @bonsai/core: migrations, repositories, FTS retriever.",
+  "license": "MIT",
   "private": true,
   "publishConfig": {
     "access": "restricted"
@@ -18,7 +19,8 @@
   "files": [
     "dist",
     "migrations",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -b",

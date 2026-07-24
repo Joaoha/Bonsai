@@ -2,6 +2,7 @@
   "name": "@bonsai/core",
   "version": "0.1.0",
   "description": "Framework-agnostic Bonsai domain: tree/branch/merge/distill primitives, ContextPacket assembly, pluggable Storage/LLMProvider/WikiStore/Retriever interfaces.",
+  "license": "MIT",
   "private": true,
   "publishConfig": {
     "access": "restricted"
@@ -17,7 +18,8 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -b",

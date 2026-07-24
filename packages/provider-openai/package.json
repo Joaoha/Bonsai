@@ -2,6 +2,7 @@
   "name": "@bonsai/provider-openai",
   "version": "0.1.0",
   "description": "OpenAI-compatible LLMProvider adapter for @bonsai/core (chat + streaming + tokenize).",
+  "license": "MIT",
   "private": true,
   "publishConfig": {
     "access": "restricted"
@@ -17,7 +18,8 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -b",

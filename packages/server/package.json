@@ -2,6 +2,7 @@
   "name": "@bonsai/server",
   "version": "0.1.0",
   "description": "Thin optional HTTP layer wrapping the @bonsai/core façade (create project, chat, branch, merge, distill, retrieve, inspect context).",
+  "license": "MIT",
   "private": true,
   "publishConfig": {
     "access": "restricted"
@@ -17,7 +18,8 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -b",

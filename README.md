@@ -45,7 +45,7 @@ pnpm docs:preview         # preview a built docs site
 
 ## Docs site
 
-Public documentation lives under [`docs/`](./docs) as its own pnpm workspace package (`@bonsai/docs`, private). It renders the IA defined in [BONA-222](/BONA/issues/BONA-222#document-ia) using Astro Starlight, with the API Reference auto-generated from each package's `src/index.ts` via TypeDoc + `starlight-typedoc`.
+Public documentation lives under [`docs/`](./docs) as its own pnpm workspace package (`@bonsai/docs`, private), built with Astro Starlight. The API Reference is auto-generated from each package's `src/index.ts` via TypeDoc + `starlight-typedoc`. Several concept and recipe pages are still stubs.
 
 ## Boundary enforcement
 
@@ -59,5 +59,7 @@ Public documentation lives under [`docs/`](./docs) as its own pnpm workspace pac
 ## References
 
 - Extraction plan and boundary map: [EXTRACTION_PLAN.md](./EXTRACTION_PLAN.md)
-- Library conversion tracking issue: [BONA-217](/BONA/issues/BONA-217)
-- Phase 1 parent issue: [BONA-226](/BONA/issues/BONA-226)
+
+## License
+
+[MIT](./LICENSE)
