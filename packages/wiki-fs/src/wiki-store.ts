@@ -19,8 +19,7 @@ import {
 export interface FsWikiStoreOptions {
   /**
    * Absolute filesystem path that scopes every read/write. There is NO
-   * default — the embedder must pick the directory (per EXTRACTION_PLAN §8 Q3
-   * and the PE decision on BONA-226).
+   * default — the embedder must pick the directory explicitly.
    */
   root: string;
 }
